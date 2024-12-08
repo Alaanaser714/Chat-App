@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
-  CustomTextField({
+  const CustomTextField({
     super.key,
     required this.hintText,
     required this.suffixIcon,
@@ -17,8 +17,19 @@ class CustomTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextFormField(
+        validator: (value) {
+          if (value!.isEmpty) {
+            return "The field is required";
+          }
+        },
         onChanged: onChanged,
         decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(
+              color: Colors.green,
+            ),
+          ),
           hintText: hintText,
           hintStyle: const TextStyle(
             color: Colors.grey,
@@ -27,7 +38,7 @@ class CustomTextField extends StatelessWidget {
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: const BorderSide(
-              color: Colors.red,
+              color: Colors.green,
             ),
           ),
           enabledBorder: OutlineInputBorder(
