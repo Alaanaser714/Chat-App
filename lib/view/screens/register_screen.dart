@@ -1,12 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:chat_app/view/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/custom_text_field.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,7 @@ class LoginScreen extends StatelessWidget {
             const Row(
               children: [
                 Text(
-                  "Login",
+                  "Sign Up",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -76,7 +75,7 @@ class LoginScreen extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  "Login",
+                  "Sign Up",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -92,8 +91,8 @@ class LoginScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  "Don’t have an accont?",
+                Text(
+                  "Already have an accont?",
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -103,15 +102,10 @@ class LoginScreen extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RegisterScreen(),
-                        ));
+                    Navigator.pop(context);
                   },
-                  
                   child: Text(
-                    "Sign Up",
+                    "Login",
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
