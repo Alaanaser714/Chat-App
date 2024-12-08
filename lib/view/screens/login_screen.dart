@@ -3,6 +3,7 @@
 import 'package:chat_app/view/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'widgets/custom_button.dart';
 import 'widgets/custom_text_field.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -47,7 +48,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ],
             ),
-            const CustomTextField(
+            CustomTextField(
               hintText: 'Email :',
               suffixIcon: Icon(
                 Icons.email,
@@ -67,24 +68,9 @@ class LoginScreen extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Container(
-              width: double.infinity,
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Text(
-                  "Login",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "Parkinsans",
-                    color: Colors.grey,
-                  ),
-                ),
-              ),
+            CustomButton(
+              title: 'Login',
+              onTap: () {},
             ),
             SizedBox(
               height: 10,
@@ -109,7 +95,6 @@ class LoginScreen extends StatelessWidget {
                           builder: (context) => RegisterScreen(),
                         ));
                   },
-                  
                   child: Text(
                     "Sign Up",
                     style: TextStyle(
