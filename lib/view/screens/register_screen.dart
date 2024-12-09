@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import 'widgets/custom_button.dart';
-import 'widgets/custom_text_field.dart';
+import 'widgets/custom_text_form_field.dart';
 
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({
@@ -79,7 +79,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ],
                 ),
-                CustomTextField(
+                CustomFormTextField(
                   hintText: 'Email :',
                   suffixIcon: Icon(
                     Icons.email,
@@ -89,7 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     widget.email = data;
                   },
                 ),
-                CustomTextField(
+                CustomFormTextField(
                     hintText: 'Password :',
                     suffixIcon: IconButton(
                       onPressed: () {},
@@ -138,7 +138,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             backgroundColor: Colors.red,
                           );
                         } else {
-                          'An unknown error occurred.';
+                          MethodApp.showSnakBar(
+                            context: context,
+                            message: "An unknown error occurred.",
+                            backgroundColor: Colors.redAccent,
+                          );
                         }
                       } catch (e) {
                         MethodApp.showSnakBar(

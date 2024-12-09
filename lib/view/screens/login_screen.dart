@@ -1,112 +1,184 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable
+// ignore_for_file: prefer_const_constructors, must_be_immutable, use_build_context_synchronously
 
+import 'package:chat_app/method/method_app.dart';
 import 'package:chat_app/view/screens/register_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import 'widgets/custom_button.dart';
-import 'widgets/custom_text_field.dart';
+import 'widgets/custom_text_form_field.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  LoginScreen({
+    super.key,
+  });
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  String? emailLogin;
+  String? passwordLogin;
   GlobalKey<FormState> formstate = GlobalKey();
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xff2B475E),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Form(
-          key: formstate,
-          child: ListView(
-            children: [
-              SizedBox(
-                height: 75,
-              ),
-              Image.asset(
-                "assets/iamges/WhatsApp-IOS-Android-logo.webp",
-                height: 100,
-                width: 100,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
-                    "Chat App",
-                    style: TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "Parkinsans",
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 100,
-              ),
-              const Row(
-                children: [
-                  Text(
-                    "Login",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "Parkinsans",
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              CustomTextField(
-                hintText: 'Email :',
-                suffixIcon: Icon(
-                  Icons.email,
-                  color: Colors.white,
+    return ModalProgressHUD(
+      inAsyncCall: isLoading,
+      child: Scaffold(
+        backgroundColor: const Color(0xff2B475E),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Form(
+            key: formstate,
+            child: ListView(
+              children: [
+                SizedBox(
+                  height: 75,
                 ),
-              ),
-              CustomTextField(
-                hintText: 'Password :',
-                suffixIcon: IconButton(
-                  onPressed: () {},
-                  color: Colors.white,
-                  icon: Icon(
-                    Icons.visibility,
+                Image.asset(
+                  "assets/iamges/WhatsApp-IOS-Android-logo.webp",
+                  height: 100,
+                  width: 100,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      "Chat App",
+                      style: TextStyle(
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "Parkinsans",
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 100,
+                ),
+                const Row(
+                  children: [
+                    Text(
+                      "Login",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "Parkinsans",
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+                CustomFormTextField(
+                  onChanged: (data) {
+                    emailLogin = data;
+                  },
+                  hintText: 'Email :',
+                  suffixIcon: Icon(
+                    Icons.email,
+                    color: Colors.white,
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              CustomButton(
-                title: 'Login',
-                onTap: () {},
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Don’t have an accont?",
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "Parkinsans",
-                      color: Colors.white,
+                CustomFormTextField(
+                  onChanged: (data) {
+                    passwordLogin = data;
+                  },
+                  hintText: 'Password :',
+                  suffixIcon: IconButton(
+                    onPressed: () {},
+                    color: Colors.white,
+                    icon: Icon(
+                      Icons.visibility,
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RegisterScreen(),
-                          ));
-                    },
-                    child: Text(
-                      "Sign Up",
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                CustomButton(
+                  onTap: () async {
+                    if (formstate.currentState!.validate()) {
+                      setState(() {
+                        isLoading = true;
+                      });
+
+                      try {
+                        final credential = await FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                          email: emailLogin!,
+                          password: passwordLogin!,
+                        );
+                        MethodApp.showSnakBar(
+                          context: context,
+                          message: "Welcome! ${credential.user!.email}",
+                          backgroundColor: Colors.green,
+                        );
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'user-not-found') {
+                          MethodApp.showSnakBar(
+                            context: context,
+                            message:
+                                "This email is not registered. Please sign up first.",
+                            backgroundColor: Colors.red,
+                          );
+                        } else if (e.code == 'wrong-password') {
+                          MethodApp.showSnakBar(
+                            context: context,
+                            message: "Incorrect password. Please try again.",
+                            backgroundColor: Colors.red,
+                          );
+                        } else if (e.code == 'invalid-email') {
+                          MethodApp.showSnakBar(
+                            context: context,
+                            message:
+                                "The email format is invalid. Please check your input.",
+                            backgroundColor: Colors.orange,
+                          );
+                        } else {
+                          MethodApp.showSnakBar(
+                            context: context,
+                            message: "An error occurred: ${e.message}",
+                            backgroundColor: Colors.redAccent,
+                          );
+                        }
+                      } catch (e) {
+                        MethodApp.showSnakBar(
+                          context: context,
+                          message:
+                              "Something went wrong. Please try again later.",
+                          backgroundColor: Colors.redAccent,
+                        );
+                      }
+                      {
+                        setState(() {
+                          isLoading = false;
+                        });
+                      }
+                    } else {
+                      MethodApp.showSnakBar(
+                        context: context,
+                        message:
+                            "Please fill in both email and password fields.",
+                        backgroundColor: Colors.redAccent,
+                      );
+                    }
+                  },
+                  title: 'Login',
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Don’t have an accont?",
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -114,10 +186,28 @@ class LoginScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                  ),
-                ],
-              )
-            ],
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RegisterScreen(),
+                            ));
+                      },
+                      child: Text(
+                        "Sign Up",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Parkinsans",
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
