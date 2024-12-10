@@ -6,13 +6,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import 'chat_screen.dart';
 import 'widgets/custom_button.dart';
 import 'widgets/custom_text_form_field.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({
-    super.key,
-  });
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -76,27 +75,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 CustomFormTextField(
+                  suffixIcon: Icon(
+                    Icons.email,
+                    color: Colors.grey,
+                  ),
                   onChanged: (data) {
                     emailLogin = data;
                   },
                   hintText: 'Email :',
-                  suffixIcon: Icon(
-                    Icons.email,
-                    color: Colors.white,
-                  ),
                 ),
                 CustomFormTextField(
+                  isPassword: true,
                   onChanged: (data) {
                     passwordLogin = data;
                   },
                   hintText: 'Password :',
-                  suffixIcon: IconButton(
-                    onPressed: () {},
-                    color: Colors.white,
-                    icon: Icon(
-                      Icons.visibility,
-                    ),
-                  ),
                 ),
                 SizedBox(
                   height: 10,
@@ -119,6 +112,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           message: "Welcome! ${credential.user!.email}",
                           backgroundColor: Colors.green,
                         );
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                settings: RouteSettings(
+                                  arguments: emailLogin,
+                                ),
+                                builder: (context) => ChatScreen()));
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
                           MethodApp.showSnakBar(
@@ -126,19 +126,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             message:
                                 "This email is not registered. Please sign up first.",
                             backgroundColor: Colors.red,
-                          );
-                        } else if (e.code == 'wrong-password') {
-                          MethodApp.showSnakBar(
-                            context: context,
-                            message: "Incorrect password. Please try again.",
-                            backgroundColor: Colors.red,
-                          );
-                        } else if (e.code == 'invalid-email') {
-                          MethodApp.showSnakBar(
-                            context: context,
-                            message:
-                                "The email format is invalid. Please check your input.",
-                            backgroundColor: Colors.orange,
                           );
                         } else {
                           MethodApp.showSnakBar(

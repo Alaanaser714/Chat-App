@@ -80,24 +80,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
                 CustomFormTextField(
+                  suffixIcon: Icon(Icons.email,color: Colors.grey,),
                   hintText: 'Email :',
-                  suffixIcon: Icon(
-                    Icons.email,
-                    color: Colors.white,
-                  ),
                   onChanged: (data) {
                     widget.email = data;
                   },
                 ),
                 CustomFormTextField(
+                    isPassword: true,
                     hintText: 'Password :',
-                    suffixIcon: IconButton(
-                      onPressed: () {},
-                      color: Colors.white,
-                      icon: Icon(
-                        Icons.visibility,
-                      ),
-                    ),
                     onChanged: (data) {
                       widget.password = data;
                     }),

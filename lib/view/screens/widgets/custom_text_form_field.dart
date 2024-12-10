@@ -1,32 +1,50 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
-class CustomFormTextField extends StatelessWidget {
-  const CustomFormTextField({
+class CustomFormTextField extends StatefulWidget {
+  CustomFormTextField({
     super.key,
+    this.suffixIcon,
+    this.isPassword = false,
     required this.hintText,
-    required this.suffixIcon,
     this.onChanged,
     this.controller,
   });
 
+  final Widget? suffixIcon;
+  final bool isPassword;
+
   final String hintText;
-  final Widget suffixIcon;
   final void Function(String)? onChanged;
- final TextEditingController? controller ;
+  final TextEditingController? controller;
+
+  @override
+  State<CustomFormTextField> createState() => _CustomFormTextFieldState();
+}
+
+class _CustomFormTextFieldState extends State<CustomFormTextField> {
+  bool isObscured = true;
+  @override
+  void initState() {
+    super.initState();
+    isObscured = widget.isPassword;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextFormField(
-        controller:controller ,
+        obscureText: widget.isPassword ? isObscured : false,
+        controller: widget.controller,
         validator: (value) {
           if (value!.isEmpty) {
             return "The field is required";
           }
           return null;
         },
-        onChanged: onChanged,
+        onChanged: widget.onChanged,
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
@@ -34,11 +52,23 @@ class CustomFormTextField extends StatelessWidget {
               color: Colors.green,
             ),
           ),
-          hintText: hintText,
+          hintText: widget.hintText,
           hintStyle: const TextStyle(
             color: Colors.grey,
           ),
-          suffixIcon: suffixIcon,
+          suffixIcon: widget.isPassword
+              ? IconButton(
+                  icon: Icon(
+                    isObscured ? Icons.visibility_off : Icons.visibility,
+                    color: Colors.grey,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isObscured = !isObscured;
+                    });
+                  },
+                )
+              : widget.suffixIcon,
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: const BorderSide(
