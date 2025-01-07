@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 class CustomFormTextField extends StatefulWidget {
-  CustomFormTextField({
+  const CustomFormTextField({
     super.key,
     this.suffixIcon,
     this.isPassword = false,

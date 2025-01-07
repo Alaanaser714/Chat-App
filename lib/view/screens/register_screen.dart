@@ -80,7 +80,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
                 CustomFormTextField(
-                  suffixIcon: Icon(Icons.email,color: Colors.grey,),
+                  suffixIcon: Icon(
+                    Icons.email,
+                    color: Colors.grey,
+                  ),
                   hintText: 'Email :',
                   onChanged: (data) {
                     widget.email = data;
@@ -95,66 +98,66 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(
                   height: 10,
                 ),
-                CustomButton(
-                  onTap: () async {
-                    if (formstate.currentState!.validate()) {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      try {
-                        final credential = await FirebaseAuth.instance
-                            .createUserWithEmailAndPassword(
-                          email: widget.email!,
-                          password: widget.password!,
-                        );
-                        Navigator.pop(context);
-                        MethodApp.showSnakBar(
-                          context: context,
-                          message:
-                              "Account created successfully for ${credential.user?.email}!",
-                          backgroundColor: Colors.green,
-                        );
-                      } on FirebaseAuthException catch (e) {
-                        if (e.code == 'weak-password') {
-                          MethodApp.showSnakBar(
-                            context: context,
-                            message: "The password provided is too weak.",
-                            backgroundColor: Colors.red,
-                          );
-                        } else if (e.code == 'email-already-in-use') {
-                          MethodApp.showSnakBar(
-                            context: context,
-                            message:
-                                "The account already exists for that email.",
-                            backgroundColor: Colors.red,
-                          );
-                        } else {
-                          MethodApp.showSnakBar(
-                            context: context,
-                            message: "An unknown error occurred.",
-                            backgroundColor: Colors.redAccent,
-                          );
-                        }
-                      } catch (e) {
-                        MethodApp.showSnakBar(
-                          context: context,
-                          message: "There was an error",
-                          backgroundColor: Colors.redAccent,
-                        );
-                      }
-                    } else {
-                      MethodApp.showSnakBar(
-                        context: context,
-                        message: "Please enter both email and password!!",
-                        backgroundColor: Colors.grey,
-                      );
-                    }
-                    setState(() {
-                      isLoading = false;
-                    });
-                  },
-                  title: "Sign Up",
-                ),
+                // CustomButton(
+                //   onTap: () async {
+                //     if (formstate.currentState!.validate()) {
+                //       setState(() {
+                //         isLoading = true;
+                //       });
+                //       try {
+                //         final credential = await FirebaseAuth.instance
+                //             .createUserWithEmailAndPassword(
+                //           email: widget.email!,
+                //           password: widget.password!,
+                //         );
+                //         Navigator.pop(context);
+                //         MethodApp.showSnakBar(
+                //           context: context,
+                //           message:
+                //               "Account created successfully for ${credential.user?.email}!",
+                //           backgroundColor: Colors.green,
+                //         );
+                //       } on FirebaseAuthException catch (e) {
+                //         if (e.code == 'weak-password') {
+                //           MethodApp.showSnakBar(
+                //             context: context,
+                //             message: "The password provided is too weak.",
+                //             backgroundColor: Colors.red,
+                //           );
+                //         } else if (e.code == 'email-already-in-use') {
+                //           MethodApp.showSnakBar(
+                //             context: context,
+                //             message:
+                //                 "The account already exists for that email.",
+                //             backgroundColor: Colors.red,
+                //           );
+                //         } else {
+                //           MethodApp.showSnakBar(
+                //             context: context,
+                //             message: "An unknown error occurred.",
+                //             backgroundColor: Colors.redAccent,
+                //           );
+                //         }
+                //       } catch (e) {
+                //         MethodApp.showSnakBar(
+                //           context: context,
+                //           message: "There was an error",
+                //           backgroundColor: Colors.redAccent,
+                //         );
+                //       }
+                //     } else {
+                //       MethodApp.showSnakBar(
+                //         context: context,
+                //         message: "Please enter both email and password!!",
+                //         backgroundColor: Colors.grey,
+                //       );
+                //     }
+                //     setState(() {
+                //       isLoading = false;
+                //     });
+                //   },
+                //   title: "Sign Up",
+                // ),
                 SizedBox(
                   height: 10,
                 ),

@@ -38,61 +38,64 @@ class ChatScreen extends StatelessWidget {
                 ),
               ),
             ),
-            body: Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    reverse: true,
-                    controller: _controller,
-                    itemCount: messagesList.length,
-                    itemBuilder: (context, index) {
-                      return messagesList[index].id == email
-                          ? ChatContainer(messagesModel: messagesList[index])
-                          : ChatContainerFriend(
-                              messagesModel: messagesList[index]);
+            body: Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      reverse: true,
+                      controller: _controller,
+                      itemCount: messagesList.length,
+                      itemBuilder: (context, index) {
+                        return messagesList[index].id == email
+                            ? ChatContainer(messagesModel: messagesList[index])
+                            : ChatContainerFriend(
+                                messagesModel: messagesList[index]);
+                      },
+                    ),
+                  ),
+                  TextField(
+                    onSubmitted: (data) {
+                      messages.add({
+                        'messages': data,
+                        "time": DateTime.now(),
+                        "id": email
+                      });
+                      controller.clear();
+                      _controller.animateTo(
+                        0,
+                        duration: Duration(seconds: 1),
+                        curve: Curves.easeIn,
+                      );
                     },
-                  ),
-                ),
-                TextField(
-                  onSubmitted: (data) {
-                    messages.add({
-                      'messages': data,
-                      "time": DateTime.now(),
-                      "id": email
-                    });
-                    controller.clear();
-                    _controller.animateTo(
-                      0,
-                      duration: Duration(seconds: 1),
-                      curve: Curves.easeIn,
-                    );
-                  },
-                  controller: controller,
-                  decoration: InputDecoration(
-                    hintText: "Send messages",
-                    suffixIcon: Icon(
-                      Icons.send,
-                      size: 35,
-                      color: Color(0xff2B475E),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
+                    controller: controller,
+                    decoration: InputDecoration(
+                      hintText: "Send messages",
+                      suffixIcon: Icon(
+                        Icons.send,
+                        size: 35,
                         color: Color(0xff2B475E),
                       ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                        color: Color(0xff2B475E),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color: Color(0xff2B475E),
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color: Color(0xff2B475E),
+                        ),
                       ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           );
         } else {
