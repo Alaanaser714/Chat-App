@@ -11,7 +11,8 @@ final class LoginLoading extends LoginState {}
 
 final class LoginSuccess extends LoginState {
   Color color;
-  LoginSuccess({required this.color});
+   String successMessage;
+  LoginSuccess({required this.color,required this.successMessage});
 }
 
 final class LoginFailure extends LoginState {

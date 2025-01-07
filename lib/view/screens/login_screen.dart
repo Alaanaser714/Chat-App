@@ -30,8 +30,15 @@ class LoginScreen extends StatelessWidget {
                   builder: (context) => ChatScreen(),
                 ));
             isLoading = false;
+            showSnakBar(
+                context: context,
+                message: state.successMessage,
+                color: state.color);
           } else if (state is LoginFailure) {
-            showSnakBar(context: context, message: state.errorMessage);
+            showSnakBar(
+                context: context,
+                message: state.errorMessage,
+                color: state.color);
             isLoading = false;
           }
         },

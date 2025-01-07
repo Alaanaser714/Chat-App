@@ -18,7 +18,7 @@ class LoginCubit extends Cubit<LoginState> {
         email: emailLogin,
         password: passwordLogin,
       );
-      emit(LoginSuccess(color: Colors.green));
+      emit(LoginSuccess(color: Colors.green, successMessage: 'login success'));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         emit(LoginFailure(errorMessage: 'user-not-found', color: Colors.red));

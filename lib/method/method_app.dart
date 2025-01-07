@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
- showSnakBar({
-  required BuildContext context,
-  required String message,
-}) {
+showSnakBar(
+    {required BuildContext context,
+    required String message,
+    required Color color}) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(
@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
           color: Colors.white,
         ),
       ),
+      backgroundColor: color,
       duration: const Duration(seconds: 3),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
