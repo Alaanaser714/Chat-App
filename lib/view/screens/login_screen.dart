@@ -24,11 +24,13 @@ class LoginScreen extends StatelessWidget {
           if (state is LoginLoading) {
             isLoading = true;
           } else if (state is LoginSuccess) {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ChatScreen(),
-                ));
+                    builder: (context) => ChatScreen(),
+                    settings: RouteSettings(
+                      arguments: emailLogin,
+                    )));
             isLoading = false;
             showSnakBar(
                 context: context,
@@ -112,13 +114,11 @@ class LoginScreen extends StatelessWidget {
                         ),
                         CustomButton(
                           onTap: () async {
-                            print("dsmklsdnlkndsklnksdl");
                             if (formstate.currentState!.validate()) {
                               BlocProvider.of<LoginCubit>(context).loginUser(
                                   emailLogin: emailLogin!,
                                   passwordLogin: passwordLogin!);
                             }
-                            print("doneeeeeeeeeeeeeee");
                           },
                           title: 'Login',
                         ),

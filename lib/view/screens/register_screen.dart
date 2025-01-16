@@ -29,11 +29,13 @@ class RegisterScreen extends StatelessWidget {
         if (state is RegisterLoading) {
           isLoading = true;
         } else if (state is RegisterSuccess) {
-          Navigator.push(
+          Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => ChatScreen(),
-              ));
+                  builder: (context) => ChatScreen(),
+                  settings: RouteSettings(
+                    arguments: email,
+                  )));
           isLoading = false;
           showSnakBar(
               context: context,
