@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable, use_build_context_synchronously
 
+import 'package:chat_app/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chat_app/cubits/login_cubit/login_cubit.dart';
 import 'package:chat_app/method/method_app.dart';
 import 'package:chat_app/view/screens/register_screen.dart';
@@ -24,6 +25,7 @@ class LoginScreen extends StatelessWidget {
           if (state is LoginLoading) {
             isLoading = true;
           } else if (state is LoginSuccess) {
+            BlocProvider.of<ChatCubit>(context).getMessage();
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(

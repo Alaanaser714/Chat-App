@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:bloc/bloc.dart';
 import 'package:chat_app/models/messages_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,10 +13,12 @@ class ChatCubit extends Cubit<ChatState> {
   CollectionReference messages =
       FirebaseFirestore.instance.collection('messages');
 
-  void sendMessage({required String data, required String email}) {
-    messages.add(
-      {'messages': data, "time": DateTime.now(), "id": email},
-    );
+  void sendMessage({required String message, required String email}) {
+    try {
+      messages.add(
+        {'messages': message, "time": DateTime.now(), "id": email},
+      );
+    } catch (e) {}
   }
 
   void getMessage() {

@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable, unused_catch_clause, depend_on_referenced_packages
+// ignore_for_file: unused_local_variable, unused_catch_clause, depend_on_referenced_packages, unnecessary_import
 
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';

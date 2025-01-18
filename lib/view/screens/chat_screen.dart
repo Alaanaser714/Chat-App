@@ -14,7 +14,7 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var email = ModalRoute.of(context)!.settings.arguments;
+    var email = ModalRoute.of(context)!.settings.arguments  as String;
 
     return Scaffold(
       appBar: AppBar(
@@ -62,6 +62,8 @@ class ChatScreen extends StatelessWidget {
             ),
             TextField(
               onSubmitted: (data) {
+                BlocProvider.of<ChatCubit>(context)
+                    .sendMessage(message: data, email: email);
                 controller.clear();
                 _controller.animateTo(
                   0,
